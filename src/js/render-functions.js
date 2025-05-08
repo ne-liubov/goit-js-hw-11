@@ -1,4 +1,4 @@
-export const galleryContainer = document.querySelector('.img-list');
+export const galleryContainer = document.querySelector('.gallery');
 const loaderEl = document.querySelector('.loader');
 console.log(loaderEl);
 
