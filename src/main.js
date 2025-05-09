@@ -1,5 +1,4 @@
 import iziToast from 'izitoast';
-import SimpleLightbox from 'simplelightbox';
 
 import { getImagesByQuery } from './js/pixabay-api';
 import {
@@ -35,7 +34,7 @@ const onFormSubmit = event => {
   getImagesByQuery(searchedQuery)
     .then(response => {
       hideLoader();
-      
+
       const images = response.data.hits;
 
       if (images.length === 0) {
@@ -52,23 +51,12 @@ const onFormSubmit = event => {
         return;
       }
 
-      const galleryTemplate = images
-        .map(image => createGallery(image))
-        .join('');
-
-      galleryContainer.innerHTML = galleryTemplate;
+      createGallery(images); // отрисовать картинки
 
       searchFormEl.reset();
-
-      // обновить lightbox после вставки новых элементов
-      new SimpleLightbox('.gallery-link', {
-        captions: true,
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
     })
     .catch(error => {
-      hideLoader(); // скрыть loader независимо от результата
+      hideLoader(); // скрыть loader
 
       iziToast.error({
         message: error.message,

@@ -1,18 +1,22 @@
+import SimpleLightbox from 'simplelightbox';
+
 export const galleryContainer = document.querySelector('.gallery');
 const loaderEl = document.querySelector('.loader');
-console.log(loaderEl);
+
+let lightbox = new SimpleLightbox('.gallery a');
 
 export const createGallery = images => {
-  const {
-    largeImageURL,
-    webformatURL,
-    tags,
-    likes,
-    views,
-    comments,
-    downloads,
-  } = images;
-  return `
+  const markup = images
+    .map(
+      ({
+        largeImageURL,
+        webformatURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `
     <li class="img-list-item">
         <a href="${largeImageURL}" class="gallery-link">
         <img class="img" src="${webformatURL}" alt="${tags}" width="360"/>
@@ -35,21 +39,29 @@ export const createGallery = images => {
           <p class="value">${downloads}</p>
         </div>
       </div>
-    </li>`;
+    </li>`
+    )
+    .join('');
+
+  galleryContainer.innerHTML = markup;
+
+  if (lightbox) {
+    lightbox.refresh();
+  } else {
+    lightbox = new SimpleLightbox('.gallery a');
+  }
 };
 
-// Очистка галереи
+// чистка галереи
 export const clearGallery = () => {
   galleryContainer.innerHTML = '';
 };
 
-// Показ лоадера
+// показ/скрытие лоадера
 export const showLoader = () => {
   console.log('Показать лоадер');
   loaderEl.classList.remove('is-hidden');
 };
-
-// Скрытие лоадера
 export const hideLoader = () => {
   console.log('Скрыть лоадер');
   loaderEl.classList.add('is-hidden');
